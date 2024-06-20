@@ -1,20 +1,21 @@
 <?php
 
-namespace RequestLogger\Middleware;
+namespace IsmoilNosr\ReqrespLogger\Middleware;
 
 use Closure;
-use RequestLogger\Contracts\Loggable;
+use Illuminate\Http\Request;
+use IsmoilNosr\ReqrespLogger\Contracts\Loggable;
 
 class RequestLoggerMiddleware
 {
-    protected $logger;
+    protected Loggable $logger;
 
     public function __construct(Loggable $logger)
     {
         $this->logger = $logger;
     }
 
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
         $response = $next($request);
 

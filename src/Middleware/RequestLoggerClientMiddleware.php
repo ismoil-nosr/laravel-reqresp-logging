@@ -1,22 +1,22 @@
 <?php
 
-namespace RequestLogger\Middleware;
+namespace IsmoilNosr\ReqrespLogger\Middleware;
 
 use Illuminate\Http\Client\Events\RequestSending;
 use Illuminate\Http\Client\Events\ResponseReceived;
 use Illuminate\Support\Facades\Event;
-use RequestLogger\Contracts\Loggable;
+use IsmoilNosr\ReqrespLogger\Contracts\Loggable;
 
 class RequestLoggerClientMiddleware
 {
-    protected $logger;
+    protected Loggable $logger;
 
     public function __construct(Loggable $logger)
     {
         $this->logger = $logger;
     }
 
-    public function register()
+    public function register(): void
     {
         Event::listen(RequestSending::class, function ($event) {
             $logData = [

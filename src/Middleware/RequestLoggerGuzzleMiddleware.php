@@ -1,22 +1,22 @@
 <?php
 
-namespace RequestLogger\Middleware;
+namespace IsmoilNosr\ReqrespLogger\Middleware;
 
+use GuzzleHttp\Middleware;
+use IsmoilNosr\ReqrespLogger\Contracts\Loggable;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use GuzzleHttp\Middleware;
-use RequestLogger\Contracts\Loggable;
 
 class RequestLoggerGuzzleMiddleware
 {
-    protected $logger;
+    protected Loggable $logger;
 
     public function __construct(Loggable $logger)
     {
         $this->logger = $logger;
     }
 
-    public function middleware()
+    public function middleware(): callable
     {
         return Middleware::tap(function (RequestInterface $request) {
             $logData = [

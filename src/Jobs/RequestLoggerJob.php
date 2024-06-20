@@ -1,6 +1,6 @@
 <?php
 
-namespace RequestLogger\Jobs;
+namespace IsmoilNosr\ReqrespLogger\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,14 +13,20 @@ class RequestLoggerJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $logData;
+    /**
+     * @var array|mixed[]
+     */
+    protected array $logData;
 
-    public function __construct($logData)
+    /**
+     * @param  array<string, mixed>  $logData
+     */
+    public function __construct(array $logData)
     {
         $this->logData = $logData;
     }
 
-    public function handle()
+    public function handle(): void
     {
         Log::info('Request Details', $this->logData);
     }

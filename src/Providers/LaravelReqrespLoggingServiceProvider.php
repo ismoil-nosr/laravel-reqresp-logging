@@ -1,29 +1,34 @@
 <?php
 
-namespace RequestLogger;
+namespace IsmoilNosr\ReqrespLogger\Providers;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\ServiceProvider;
-use RequestLogger\Middleware\RequestLoggerClientMiddleware;
-use RequestLogger\Services\RequestLoggerService;
-use RequestLogger\Contracts\Loggable;
+use IsmoilNosr\ReqrespLogger\Contracts\Loggable;
+use IsmoilNosr\ReqrespLogger\LaravelReqrespLogging;
+use IsmoilNosr\ReqrespLogger\Middleware\RequestLoggerClientMiddleware;
 
-class RequestLoggerServiceProvider extends ServiceProvider
+class LaravelReqrespLoggingServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/requestlogger.php', 'requestlogger');
+        $this->mergeConfigFrom(__DIR__.'/../../config/reqresp.php', 'reqresp');
 
-        $this->app->singleton(Loggable::class, RequestLoggerService::class);
+        $this->app->singleton(Loggable::class, LaravelReqrespLogging::class);
     }
 
-    public function boot()
+    /**
+     * @throws BindingResolutionException
+     */
+    public function boot(): void
     {
         $this->publishes([
-            __DIR__.'/../config/requestlogger.php' => config_path('requestlogger.php'),
+            __DIR__.'/../../config/reqresp.php' => config_path('reqresp.php'),
         ]);
 
+        /** @phpstan-ignore-next-line  */
         $router = $this->app['router'];
-        $router->aliasMiddleware('requestlogger', \RequestLogger\Middleware\RequestLoggerMiddleware::class);
+        $router->aliasMiddleware('reqresp', \IsmoilNosr\ReqrespLogger\Middleware\RequestLoggerMiddleware::class);
 
         $logger = $this->app->make(Loggable::class);
         (new RequestLoggerClientMiddleware($logger))->register();
