@@ -6,7 +6,8 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\ServiceProvider;
 use IsmoilNosr\ReqrespLogger\Contracts\Loggable;
 use IsmoilNosr\ReqrespLogger\LaravelReqrespLogging;
-use IsmoilNosr\ReqrespLogger\Middleware\RequestLoggerHttpClientMiddleware;
+
+use function config_path;
 
 class LaravelReqrespLoggingServiceProvider extends ServiceProvider
 {
@@ -22,15 +23,14 @@ class LaravelReqrespLoggingServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->publishes([
-            __DIR__.'/../../config/reqresp.php' => config_path('reqresp.php'),
-        ]);
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../../config/reqresp.php' => config_path('reqresp.php'),
+            ], 'reqresp-config');
+        }
 
         /** @phpstan-ignore-next-line  */
         $router = $this->app['router'];
         $router->aliasMiddleware('reqresp', \IsmoilNosr\ReqrespLogger\Middleware\RequestLoggerRouteMiddleware::class);
-
-        $logger = $this->app->make(Loggable::class);
-        (new RequestLoggerHttpClientMiddleware($logger))->register();
     }
 }
