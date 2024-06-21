@@ -32,7 +32,12 @@ return [
     /**
      * Specify default log channel
      */
-    'log_channel' => env('REQUEST_LOGGER_CHANNEL', 'default'),
+    'log_channel' => env('REQRESP_LOGGER_CHANNEL', 'default'),
+
+    /**
+     * Specify queue name
+     */
+    'queue_name' => env('REQRESP_QUEUE_NAME', 'default'),
 
     /**
      * Here you can specify logging channels where you want to store you log data

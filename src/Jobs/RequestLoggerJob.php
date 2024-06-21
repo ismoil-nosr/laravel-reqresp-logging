@@ -23,6 +23,7 @@ class RequestLoggerJob implements ShouldQueue
      */
     public function __construct(array $logData)
     {
+        $this->queue = config('reqresp.queue_name');
         $this->logData = $logData;
     }
 
