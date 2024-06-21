@@ -3,6 +3,7 @@
 namespace IsmoilNosr\ReqrespLogger\Middleware;
 
 use Closure;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use IsmoilNosr\ReqrespLogger\Contracts\Loggable;
 
@@ -17,6 +18,7 @@ class RequestLoggerRouteMiddleware
 
     public function handle(Request $request, Closure $next): mixed
     {
+        /** @var JsonResponse $response */
         $response = $next($request);
 
         $logData = [
@@ -24,11 +26,10 @@ class RequestLoggerRouteMiddleware
             'method' => $request->method(),
             'ip' => $request->ip(),
             'input' => $request->all(),
-            'response' => $response->getContent(),
+            'response' => $response->getData(true),
         ];
 
         $this->logger->logRequest($logData);
-        $this->logger->logResponse($logData);
 
         return $response;
     }
