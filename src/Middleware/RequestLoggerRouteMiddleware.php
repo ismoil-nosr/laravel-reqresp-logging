@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use IsmoilNosr\ReqrespLogger\Contracts\Loggable;
 
-class RequestLoggerMiddleware
+class RequestLoggerRouteMiddleware
 {
     protected Loggable $logger;
 

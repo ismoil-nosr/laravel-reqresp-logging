@@ -7,7 +7,7 @@ use Illuminate\Http\Client\Events\ResponseReceived;
 use Illuminate\Support\Facades\Event;
 use IsmoilNosr\ReqrespLogger\Contracts\Loggable;
 
-class RequestLoggerClientMiddleware
+class RequestLoggerHttpClientMiddleware
 {
     protected Loggable $logger;
 
