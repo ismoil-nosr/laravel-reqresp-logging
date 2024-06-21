@@ -34,7 +34,7 @@ class LaravelReqrespLogging implements Loggable
     public function logRequest(array $data): void
     {
         if (config('reqresp.enabled')) {
-            $data['input'] = $this->filterContent($data['input'], config('reqresp.filter_request'), $this->filter_keys);
+            $data['input'] = $this->filterContent($data['input'], config('reqresp.filter_request'));
 
             if (config('reqresp.queue')) {
                 Bus::dispatch(new RequestLoggerJob($data));
@@ -50,7 +50,7 @@ class LaravelReqrespLogging implements Loggable
     public function logResponse(array $data): void
     {
         if (config('reqresp.enabled')) {
-            $data['response'] = $this->filterContent($data['response'], config('reqresp.filter_response'), $this->filter_keys);
+            $data['response'] = $this->filterContent($data['response'], config('reqresp.filter_response'));
 
             if (config('reqresp.queue')) {
                 Bus::dispatch(new RequestLoggerJob($data));
@@ -61,20 +61,17 @@ class LaravelReqrespLogging implements Loggable
     }
 
     /**
-     * @param  array<string, mixed>  $content
-     * @param  array<string, mixed>  $filterKeys
+     * @param  mixed  $content
      * @return array<string, mixed>
      */
-    protected function filterContent(array $content, bool $shouldFilter, array $filterKeys): array
+    protected function filterContent($content, bool $shouldFilter): array
     {
         if (! $shouldFilter) {
             return $content;
         }
 
-        $filterKeys = $filterKeys ?: config('reqresp.filter_keys', []);
-
-        array_walk_recursive($content, function (&$item, $key) use ($filterKeys) {
-            if (in_array($key, $filterKeys)) {
+        array_walk_recursive($content, function (&$item, $key) {
+            if (in_array($key, $this->filter_keys)) {
                 $item = '[FILTERED]';
             }
         });
