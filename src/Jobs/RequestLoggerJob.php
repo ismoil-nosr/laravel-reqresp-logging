@@ -18,6 +18,8 @@ class RequestLoggerJob implements ShouldQueue
      */
     protected array $logData;
 
+    private string $logChannel;
+
     /**
      * @param  array<string, mixed>  $logData
      */
@@ -25,10 +27,11 @@ class RequestLoggerJob implements ShouldQueue
     {
         $this->queue = config('reqresp.queue_name');
         $this->logData = $logData;
+        $this->logChannel = config('reqresp.log_channel', 'daily');
     }
 
     public function handle(): void
     {
-        Log::info('Request Details', $this->logData);
+        Log::channel($this->logChannel)->info('Request Details', $this->logData);
     }
 }

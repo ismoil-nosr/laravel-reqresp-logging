@@ -25,7 +25,7 @@ class LaravelReqrespLogging implements Loggable
     public function __construct()
     {
         $this->filter_keys = config('reqresp.filter_keys', []);
-        $this->logChannel = config('reqresp.log_channel', 'default');
+        $this->logChannel = config('reqresp.log_channel', 'daily');
     }
 
     /**
