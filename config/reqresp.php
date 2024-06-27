@@ -3,6 +3,7 @@
 /*
  * You can place your custom package configuration in here.
  */
+
 return [
     /**
      * Allows to enable and disable logging
@@ -38,15 +39,4 @@ return [
      * Specify queue name
      */
     'queue_name' => env('REQRESP_QUEUE_NAME', 'default'),
-
-    /**
-     * Here you can specify logging channels where you want to store you log data
-     */
-    'channels' => [
-        'default' => [
-            'driver' => 'single',
-            'path' => storage_path('logs/reqresp.log'),
-            'level' => 'debug',
-        ],
-    ],
 ];

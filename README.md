@@ -38,7 +38,28 @@ REQRESP_QUEUE_NAME=logs
 ```
 
 ## Usage
+By default package uses `daily` channel. 
 
+### Log to MySQL database
+```php
+'database' => [
+    'driver' => 'monolog',
+    'handler' => MysqlLogHandler::class,
+    'level' => 'debug',
+]
+```
+
+### Log Laravel routes
+```php
+// Usage description here
+```
+
+### Log HTTP Client Facade requests and responses
+```php
+// Usage description here
+```
+
+### Log Guzzle requests and responses
 ```php
 // Usage description here
 ```

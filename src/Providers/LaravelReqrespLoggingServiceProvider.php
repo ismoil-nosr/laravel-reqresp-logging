@@ -4,6 +4,7 @@ namespace IsmoilNosr\ReqrespLogger\Providers;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\ServiceProvider;
+use IsmoilNosr\ReqrespLogger\Commands\RunReqrespMigrations;
 use IsmoilNosr\ReqrespLogger\Contracts\Loggable;
 use IsmoilNosr\ReqrespLogger\LaravelReqrespLogging;
 
@@ -27,6 +28,10 @@ class LaravelReqrespLoggingServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../../config/reqresp.php' => config_path('reqresp.php'),
             ], 'reqresp-config');
+
+            $this->commands([
+                RunReqrespMigrations::class,
+            ]);
         }
 
         /** @phpstan-ignore-next-line  */
