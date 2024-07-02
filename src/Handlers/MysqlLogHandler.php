@@ -5,6 +5,7 @@ namespace IsmoilNosr\ReqrespLogger\Handlers;
 use Illuminate\Support\Facades\DB;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\LogRecord;
+
 use function json_encode;
 
 class MysqlLogHandler extends AbstractProcessingHandler
